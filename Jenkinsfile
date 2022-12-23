@@ -1,9 +1,9 @@
 pipeline {
     environment {
-        registry = 'sreeharshav/devopsb17'
+        registry = 'vinaykumar331/myrepo'
         registryCredential = 'dockerhub_id'
-        dockerSwarmManager = '10.40.1.26:2375'
-        dockerhost = '10.40.1.26'
+        dockerSwarmManager = '10.1.1.41:2375'
+        dockerhost = '10.1.1.41'
         dockerImage = ''
     }
     agent any
