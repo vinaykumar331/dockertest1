@@ -36,3 +36,5 @@ pipeline {
                 sh "docker run -dit --name testing1 -p 8100:80 $registry:vk$BUILD_NUMBER"
             }
         }
+       }
+   }
