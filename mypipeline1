@@ -1,7 +1,7 @@
 pipeline {
     environment {
         registry = 'vinaykumar331/myrepo'
-        dockerhost = '10.1.1.213'     
+        dockerhost = '10.1.1.213' 
     }
     agent any
     stages {
