@@ -13,7 +13,7 @@ pipeline {
         stage('Building our image') {
             steps {
                 script {
-                    sh "docker build . -t $registry:v$BUILD_NUMBER"
+                    sh "docker build . -t $registry:vk$BUILD_NUMBER"
                 }
             }
         }
@@ -21,7 +21,7 @@ pipeline {
                steps{
                      withCredentials([string(credentialsId: 'DockerHUB-ID', variable: 'DockerHub_Credentials')]) {
                      sh "docker login -u vinaykumar331 -p ${DockerHub_Credentials}"
-                     sh "docker push vinaykumar331/myrepo:v$BUILD_NUMBER"
+                     sh "docker push vinaykumar331/myrepo:vk$BUILD_NUMBER"
                  }
             }    
         }
@@ -33,7 +33,7 @@ pipeline {
         }
         stage('Deploying to Docker') {
             steps {
-                sh "docker run -dit --name testing1 -p 8100:80 $registry:v$BUILD_NUMBER"
+                sh "docker run -dit --name testing1 -p 8100+$BUILD_NUMBER:80 $registry:v$BUILD_NUMBER"
             }
         }
        }
