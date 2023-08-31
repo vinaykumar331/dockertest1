@@ -23,6 +23,17 @@ pipeline {
                 }
             }
           }
+        stage ('Cleaning up data') {
+            steps {
+               sh "docker rmi $registry:vk$BUILD_NUMBER"
+            }
+          }
+        stage ('Deployment') {
+            steps {
+               sh "docker run --rm -dit --name testcon1 -p 8200:80 $registry:vk$BUILD_NUMBER"
+            }
+          }        
+        
       }
 }
    
