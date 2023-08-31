@@ -33,7 +33,7 @@ pipeline {
         }
         stage('Deploying to Docker') {
             steps {
-                sh "docker run -dit --name testing1 -p 8100+$BUILD_NUMBER:80 $registry:v$BUILD_NUMBER"
+                sh "docker run -dit --name testing1 -p 8150:80 $registry:v$BUILD_NUMBER"
             }
         }
        }
