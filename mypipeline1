@@ -1,7 +1,7 @@
 pipeline {
     environment {
         registry = 'vinaykumar331/myrepo'
-        dockerhost = '10.1.1.213'
+        dockerhost = '10.1.1.213'     
     }
     agent any
     stages {
@@ -33,7 +33,7 @@ pipeline {
         }
         stage('Deploying to Docker') {
             steps {
-                sh "docker run -dit --name testing1 -p 8150:80 $registry:v$BUILD_NUMBER"
+                sh "docker run -dit --name testing2 -p 8160:80 $registry:v$BUILD_NUMBER"
             }
         }
        }
