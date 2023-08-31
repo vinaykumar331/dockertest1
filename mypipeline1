@@ -1,41 +1,38 @@
 pipeline {
     environment {
         registry = 'vinaykumar331/myrepo'
-        registryCredential = 'dockerhub_id'
-        dockerhost = '10.1.1.245'
-        dockerImage = ''
+        dockerhost = '10.1.1.213'
     }
     agent any
     stages {
         stage('Cloning our Git') {
             steps {
-                git 'https://github.com/vinaykumar331/dockertest1.git'
+                git credentialsId: 'GitHUB-Id', url: 'https://github.com/vinaykumar331/dockertest1.git'
             }
         }
         stage('Building our image') {
             steps {
                 script {
-                    dockerImage = docker.build registry + ":v$BUILD_NUMBER"
+                    sh "docker build . -t $registry:vk$BUILD_NUMBER"
                 }
             }
         }
           stage('Push Image To DockerHUB') {
                steps{
-                     withCredentials([string(credentialsId: 'vinaykumar331', variable: 'DOCKER_HUB_CREDENTIALS')]) {
-                     sh "docker login -u vinaykumar331 -p ${DOCKER_HUB_CREDENTIALS}"
-                     sh "docker push vinaykumar331/myrepo:v$BUILD_NUMBER"
+                     withCredentials([string(credentialsId: 'DockerHUB-ID', variable: 'DockerHub_Credentials')]) {
+                     sh "docker login -u vinaykumar331 -p ${DockerHub_Credentials}"
+                     sh "docker push vinaykumar331/myrepo:vk$BUILD_NUMBER"
                  }
             }    
         }
         
         stage('Cleaning up') {
             steps {
-                sh "docker rmi $registry:v$BUILD_NUMBER"
+                sh "docker rmi $registry:vk$BUILD_NUMBER"
             }
         }
         stage('Deploying to Docker') {
             steps {
-                sh "docker run --rm testing1 || true"
-                sh "docker run -dit --name testing1 -p 8100:80 $registry:v$BUILD_NUMBER"
+                sh "docker run -dit --name testing1 -p 8100:80 $registry:vk$BUILD_NUMBER"
             }
         }
