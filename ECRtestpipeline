@@ -1,0 +1,34 @@
+pipeline {
+    environment {
+       ECR = '752140524248.dkr.ecr.ap-southeast-2.amazonaws.com/myapp'
+       dockerhost = '10.1.1.254'
+           }
+       
+    agent any 
+    stages {
+        stage('Cloning out Git repo') { 
+            steps {
+                git credentialsId: 'vinaykumar331', url: 'https://github.com/vinaykumar331/dockertest1.git'
+            }
+        }
+        stage('Buildig our Image') { 
+            steps {
+                sh 'docker build . -t $ECR:v$BUILD_NUMBER'
+            }
+        }
+        stage('Push Image to ECR & clean up locally') { 
+            steps {
+                withCredentials([string(credentialsId: 'ECR_ID', variable: 'ECR_CREDENTIALS')]) {
+                sh "docker push $ECR:v$BUILD_NUMBER"
+                sh "docker rmi $ECR:v$BUILD_NUMBER" 
+                }
+                
+              }
+            }
+         stage('Deploy cointainer') { 
+            steps {
+                sh "docker run --rm -dit --name mycon3 -p 8300:80 $ECR:v$BUILD_NUMBER"
+            }
+        }
+        
+}
