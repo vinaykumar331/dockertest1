@@ -17,22 +17,22 @@ pipeline {
         }
         stage('Buildig our Image') { 
             steps {
-                sh 'docker build . -t ${REPOSITORY_URI}:${IAMGE_TAG}'
+                sh "docker build . -t '${REPOSITORY_URI}:${IAMGE_TAG}'"
             }
         }
         stage('Login & push Image to ECR then clean up locally') { 
             steps {
                 script {
                 sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
-                sh "docker push ${REPOSITORY_URI}:${IAMGE_TAG}"
-                sh "docker rmi ${REPOSITORY_URI}:${IAMGE_TAG}" 
+                sh "docker push '${REPOSITORY_URI}':'${IAMGE_TAG}'"
+                sh "docker rmi '${REPOSITORY_URI}':'${IAMGE_TAG}'" 
                 }
                 
               }
             }
          stage('Deploy cointainer') { 
             steps {
-                sh "docker run --rm -dit --name mycon4 -p 8400:80 ${REPOSITORY_URI}:${IAMGE_TAG}"
+                sh "docker run --rm -dit --name mycon4 -p 8400:80 '${REPOSITORY_URI}':'${IAMGE_TAG}'"
             }
         }
    }       
