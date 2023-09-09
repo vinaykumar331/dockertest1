@@ -2,6 +2,7 @@ pipeline {
     environment {
        registry = 'vinaykumar331/app'
        dockerhost = '10.1.1.254'
+           }
        
     agent any 
     stages {
