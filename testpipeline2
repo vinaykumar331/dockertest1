@@ -20,7 +20,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'dockerhub_id', variable: 'DOCKERHUB_CREDENTIALS')]) {
                 sh "docker login -u vinaykumar331 -p ${DockerHub_Credentials}"
-                sh "doker push $registry:v$BUILD_NUMBER"
+                sh "docker push $registry:v$BUILD_NUMBER"
                 sh "docker rmi $registry:v$BUILD_NUMBER"
                  } 
               }
