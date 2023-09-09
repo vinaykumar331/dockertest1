@@ -30,5 +30,5 @@ pipeline {
                 sh "docker run --rm -dit --name mycon3 -p 8300:80 $ECR:v$BUILD_NUMBER"
             }
         }
-        
+   }       
 }
