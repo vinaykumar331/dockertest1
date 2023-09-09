@@ -19,7 +19,7 @@ pipeline {
         stage('Push Image to ECR & clean up locally') { 
             steps {
                 withCredentials([string(credentialsId: 'ECR_ID', variable: 'ECR_CREDENTIALS')]) {
-                docker login --username AWS --password-stdin
+                aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 752140524248.dkr.ecr.ap-southeast-2.amazonaws.com
                 sh "docker push $ECR:v$BUILD_NUMBER"
                 sh "docker rmi $ECR:v$BUILD_NUMBER" 
                 }
