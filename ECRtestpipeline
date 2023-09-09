@@ -1,6 +1,10 @@
 pipeline {
     environment {
-       ECR = '752140524248.dkr.ecr.ap-southeast-2.amazonaws.com/myapp'
+       AWS_ACCOUNT_ID = '752140524248'
+       AWS_DEFAULT_REGION = 'ap-southeast-2'
+       IMAGE_REPO_NAME = 'myapp'
+       IAMGE_TAG = 'v${BUILD_NUMBER}'
+       REPOSITORY_URI = ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}
        dockerhost = '10.1.1.254'
            }
        
@@ -13,22 +17,22 @@ pipeline {
         }
         stage('Buildig our Image') { 
             steps {
-                sh 'docker build . -t $ECR:v$BUILD_NUMBER'
+                sh 'docker build . -t ${REPOSITORY_URI}:${IAMGE_TAG}'
             }
         }
-        stage('Push Image to ECR & clean up locally') { 
+        stage('Login & push Image to ECR then clean up locally') { 
             steps {
-                withCredentials([string(credentialsId: 'ECR_ID', variable: 'ECR_CREDENTIALS')]) {
-                sh "aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 752140524248.dkr.ecr.ap-southeast-2.amazonaws.com"
-                sh "docker push $ECR:v$BUILD_NUMBER"
-                sh "docker rmi $ECR:v$BUILD_NUMBER" 
+                script {
+                sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+                sh "docker push ${REPOSITORY_URI}:${IAMGE_TAG}"
+                sh "docker rmi ${REPOSITORY_URI}:${IAMGE_TAG}" 
                 }
                 
               }
             }
          stage('Deploy cointainer') { 
             steps {
-                sh "docker run --rm -dit --name mycon3 -p 8300:80 $ECR:v$BUILD_NUMBER"
+                sh "docker run --rm -dit --name mycon4 -p 8400:80 ${REPOSITORY_URI}:${IAMGE_TAG}"
             }
         }
    }       
