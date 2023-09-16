@@ -1,0 +1,60 @@
+# pod
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp
+  labels:
+    app: vinayapp
+spec:
+  containers:
+    - name: vinayapp
+      image: nginx
+      ports:
+        - containerPort: 8080
+
+# deployment
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+  labels:
+    app: vinayapp
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: vinayapp
+  template:
+    metadata:
+      labels:
+        app: vinayapp
+    spec:
+      containers:
+      - image: nginx
+        name: myapp
+        ports:
+        - containerPort: 8080
+
+# service lb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp
+  labels:
+    app: vinayapp
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 5001
+    targetPort: 80
+    name: myapp
+  selector:
+    app: vinayapp
