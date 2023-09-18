@@ -22,7 +22,7 @@ spec:
         app: vinayapp
     spec:
       containers:
-      - image: nginx
+      - image: vinaykumar331/app:latest
         name: myapp
         ports:
         - containerPort: 8080
