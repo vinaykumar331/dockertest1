@@ -18,8 +18,8 @@ pipeline {
         }
         stage('Push Image to DockerHub & clean up locally') { 
             steps {
-                withCredentials([string(credentialsId: 'dockerhub_id', variable: 'DOCKERHUB_CREDENTIALS')]) {
-                sh "docker login -u vinaykumar331 -p ${DockerHub_Credentials}"
+                withCredentials([string(credentialsId: 'vinaykumar331', variable: 'DOCKERHUB_CREDENTIALS')]) {
+                sh "docker login -u vinaykumar331 -p ${DOCKERHUB_CREDENTIALS}"
                 sh "docker push $registry:v$BUILD_NUMBER"
                 sh "docker rmi $registry:v$BUILD_NUMBER"
                  } 
