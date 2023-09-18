@@ -1,0 +1,35 @@
+pipeline {
+    environment {
+       registry = 'vinaykumar331/app'
+       dockerhost = '10.1.1.254'
+           }
+       
+    agent any 
+    stages {
+        stage('Cloning out Git repo') { 
+            steps {
+                git credentialsId: 'vinaykumar331', url: 'https://github.com/vinaykumar331/dockertest1.git'
+            }
+        }
+        stage('Buildig our Image') { 
+            steps {
+                sh 'docker build . -t $registry:v$BUILD_NUMBER'
+            }
+        }
+        stage('Push Image to DockerHub & clean up locally') { 
+            steps {
+                withCredentials([string(credentialsId: 'dockerhub_id', variable: 'DOCKERHUB_CREDENTIALS')]) {
+                sh "docker login -u vinaykumar331 -p ${DockerHub_Credentials}"
+                sh "docker push $registry:v$BUILD_NUMBER"
+                sh "docker rmi $registry:v$BUILD_NUMBER"
+                 } 
+              }
+            }
+         stage('Deploy cointainer') { 
+            steps {
+                sh "docker run --rm -dit --name mycon3 -p 8300:80 $registry:v$BUILD_NUMBER"
+            }
+        }
+        
+    }
+}
