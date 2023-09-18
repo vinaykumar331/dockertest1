@@ -1,7 +1,7 @@
 pipeline {
     environment {
        registry = 'vinaykumar331/app'
-       dockerhost = '10.1.1.254'
+       dockerhost = '12.0.2.139'
            }
        
     agent any 
@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Buildig our Image') { 
             steps {
-                sh 'docker build . -t $registry:v$BUILD_NUMBER'
+                sh 'docker build . -t $registry:vk$BUILD_NUMBER'
             }
         }
         stage('Push Image to DockerHub & clean up locally') { 
@@ -25,9 +25,9 @@ pipeline {
                  } 
               }
             }
-         stage('Deploy cointainer') { 
+         stage('Deployment in KUB Cluster') { 
             steps {
-                sh "docker run --rm -dit --name mycon3 -p 8300:80 $registry:v$BUILD_NUMBER"
+                sh "kubernetesDeply(configs: "podmsv.yaml", kubeconfigId: "kubernetes")"
             }
         }
         
