@@ -1,6 +1,7 @@
 pipeline {
     environment {
        registry = 'vinaykumar331/app'
+       version = 'vk$BUILD_NUMBER'
        dockerhost = '12.0.2.139'
            }
        
