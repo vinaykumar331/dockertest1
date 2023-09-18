@@ -22,7 +22,7 @@ spec:
         app: vinayapp
     spec:
       containers:
-      - image: vinaykumar331/app:"$(version)"
+      - image: vinaykumar331/app:vk4
         name: myapp
         ports:
         - containerPort: 8080
