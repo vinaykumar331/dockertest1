@@ -27,7 +27,9 @@ pipeline {
             }
          stage('Deployment in KUB Cluster') { 
             steps {
-                sh "kubernetesDeply(configs: "podmsv.yaml", kubeconfigId: "kubernetes")"
+              script {
+                kubernetesDeply(configs: "podmsv.yaml", kubeconfigId: "kubernetes")
+                  }
             }
         }
         
