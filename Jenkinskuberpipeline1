@@ -1,7 +1,6 @@
 pipeline {
     environment {
        registry = 'vinaykumar331/app'
-       version = 'vk$BUILD_NUMBER'
        dockerhost = '12.0.2.139'
            }
        
@@ -14,15 +13,15 @@ pipeline {
         }
         stage('Buildig our Image') { 
             steps {
-                sh 'docker build . -t $registry:vk$BUILD_NUMBER'
+                sh 'docker build . -t $registry:latest'
             }
         }
         stage('Push Image to DockerHub & clean up locally') { 
             steps {
                 withCredentials([string(credentialsId: 'vinaykumar331', variable: 'DOCKERHUB_CREDENTIALS')]) {
                 sh "docker login -u vinaykumar331 -p ${DOCKERHUB_CREDENTIALS}"
-                sh "docker push $registry:vk$BUILD_NUMBER"
-                sh "docker rmi $registry:vk$BUILD_NUMBER"
+                sh "docker push $registry:latest"
+                sh "docker rmi $registry:latest"
                  } 
               }
             }
