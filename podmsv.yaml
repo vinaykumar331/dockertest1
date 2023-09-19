@@ -7,7 +7,7 @@ metadata:
   labels:
     app: vinayapp
 spec:
-  replicas: 3
+  replicas: 6
   strategy:
     type: RollingUpdate
     rollingUpdate:
