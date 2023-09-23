@@ -1,0 +1,7 @@
+---
+- hosts: all
+  tasks:
+   - name: Create a empty file
+     file:
+      path: /home/ec2-user/kedhari
+      state: touch
