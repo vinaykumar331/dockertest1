@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+  tasks:
+    - name: Install list of packages
+      yum: name='{{item}}' state=present
+      with_items:
+       - httpd
+       - wget
+       - vim
+       - zip
+       - unzip
