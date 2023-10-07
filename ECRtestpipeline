@@ -4,7 +4,7 @@ pipeline {
        AWS_DEFAULT_REGION = 'ap-southeast-2'
        IMAGE_REPO_NAME = 'myapp'
        REPOSITORY = '${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}'
-       dockerhost = '10.1.1.254'
+       dockerhost = '172.31.19.238'
            }
        
     agent any 
