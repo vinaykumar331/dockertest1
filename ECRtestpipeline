@@ -30,7 +30,7 @@ pipeline {
             }
          stage('Deploy cointainer') { 
             steps {
-                sh "docker run --rm -dit --name mycon4 -p 8400:80 $REPOSITORY:v$BUILD_NUMBER"
+                sh "docker run --rm -dit --name mycon3 -p 8500:80 $REPOSITORY:v$BUILD_NUMBER"
             }
         }
    }       
