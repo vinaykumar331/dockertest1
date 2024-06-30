@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Building Docker image') {
             steps {
-                sh 'docker build . -t $registry:$BUILD_NUMBER'
+                sh 'docker build . -t $registry:v$BUILD_NUMBER'
             }
         }
         stage('Push Image to DockerHUb & Clean up Locally') {
@@ -25,7 +25,7 @@ pipeline {
            }
            stage('Creating container') {
             steps {
-                sh 'docker run --rm -dit --name c1 -p 8100:80 $registry:$BUILD_NUMBER'
+                sh 'docker run --rm -dit --name c1 -p 8100:80 $registry:v$BUILD_NUMBER'
             }
         }  
     }
